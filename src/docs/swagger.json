@@ -1,0 +1,757 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "RentTech API",
+    "version": "1.0.0",
+    "description": "Dokumentasi API website RentTech."
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000",
+      "description": "Development Server"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Users"
+    },
+    {
+      "name": "Categories"
+    },
+    {
+      "name": "Items"
+    },
+    {
+      "name": "Carts"
+    },
+    {
+      "name": "Checkouts"
+    }
+  ],
+  "paths": {
+    "/api/users/register": {
+      "post": {
+        "tags": ["Users"],
+        "summary": "Register new user",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": { "type": "string" },
+                  "username": { "type": "string" },
+                  "email": { "type": "string" },
+                  "password": { "type": "string" }
+                },
+                "required": ["name", "username", "email", "password"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "Register success." }
+        }
+      }
+    },
+    "/api/users/login": {
+      "post": {
+        "tags": ["Users"],
+        "summary": "Login user",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "identifier": { "type": "string" },
+                  "password": { "type": "string" }
+                },
+                "required": ["identifier", "password"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Login success." }
+        }
+      }
+    },
+    "/api/users/all": {
+      "get": {
+        "tags": ["Users"],
+        "summary": "Get all users (admin only)",
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": { "description": "Ok." }
+        }
+      }
+    },
+    "/api/users/by-id/{id}": {
+      "get": {
+        "tags": ["Users"],
+        "summary": "Get user by id",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer" }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Ok" }
+        }
+      },
+      "put": {
+        "tags": ["Users"],
+        "summary": "Update user by id",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": { "type": "string" },
+                  "username": { "type": "string" },
+                  "email": { "type": "string" },
+                  "phone": { "type": "string" },
+                  "alamat": { "type": "string" },
+                  "image_url": { "type": "string", "format": "binary" }
+                },
+                "required": ["name", "username", "email", "phone", "alamat"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Ok" }
+        }
+      },
+      "delete": {
+        "tags": ["Users"],
+        "summary": "Delete user by id (admin only)",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer" }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Ok" }
+        }
+      }
+    },
+    "/api/categories/": {
+      "post": {
+        "tags": ["Categories"],
+        "summary": "Create new category (admin only)",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "category_name": { "type": "string" }
+                },
+                "required": ["category_name"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "Create category name success." }
+        }
+      }
+    },
+    "/api/categories/all": {
+      "get": {
+        "tags": ["Categories"],
+        "summary": "Get all category",
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": { "description": "Ok." }
+        }
+      }
+    },
+    "/api/categories/by-id/{id}": {
+      "get": {
+        "tags": ["Categories"],
+        "summary": "Get category by id",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer" }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Ok" }
+        }
+      },
+      "put": {
+        "tags": ["Categories"],
+        "summary": "Update category by id (admin only)",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "category_name": { "type": "string" }
+                },
+                "required": ["category_name"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Ok" }
+        }
+      },
+      "delete": {
+        "tags": ["Categories"],
+        "summary": "Delete category by id (admin only)",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer" }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Ok" }
+        }
+      }
+    },
+    "/api/items/": {
+      "post": {
+        "tags": ["Items"],
+        "summary": "Create new item (admin only)",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "category_id": { "type": "integer" },
+                  "item_code": { "type": "string" },
+                  "item_name": { "type": "string" },
+                  "description": { "type": "string" },
+                  "rental_price": { "type": "integer" },
+                  "stock": { "type": "integer" },
+                  "status": {
+                    "type": "string",
+                    "enum": ["Tersedia", "Disewa"]
+                  },
+                  "image_url": {
+                    "type": "array",
+                    "items": { "type": "string", "format": "binary" }
+                  }
+                },
+                "required": [
+                  "category_id",
+                  "item_code",
+                  "item_name",
+                  "description",
+                  "rental_price",
+                  "stock",
+                  "status",
+                  "image_url"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "Item added successfully." }
+        }
+      }
+    },
+    "/api/items/all": {
+      "get": {
+        "tags": ["Items"],
+        "summary": "Get all Items",
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": { "description": "Ok." }
+        }
+      }
+    },
+    "/api/items/by-categoryid/{category_id}": {
+      "get": {
+        "tags": ["Items"],
+        "summary": "Get item by categoryId",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "category_id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer" }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Ok" }
+        }
+      }
+    },
+    "/api/items/by-id/{id}": {
+      "get": {
+        "tags": ["Items"],
+        "summary": "Get item by id",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer" }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Ok" }
+        }
+      },
+      "put": {
+        "tags": ["Items"],
+        "summary": "Update item by id (admin only)",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "category_id": { "type": "integer" },
+                  "item_code": { "type": "string" },
+                  "item_name": { "type": "string" },
+                  "description": { "type": "string" },
+                  "rental_price": { "type": "integer" },
+                  "stock": { "type": "integer" },
+                  "status": {
+                    "type": "string",
+                    "enum": ["Tersedia", "Disewa"]
+                  },
+                  "image_url": {
+                    "type": "array",
+                    "items": { "type": "string", "format": "binary" }
+                  }
+                },
+                "required": [
+                  "category_id",
+                  "item_code",
+                  "item_name",
+                  "description",
+                  "rental_price",
+                  "stock",
+                  "status"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Ok" }
+        }
+      },
+      "delete": {
+        "tags": ["Items"],
+        "summary": "Delete item by id (admin only)",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer" }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Ok" }
+        }
+      }
+    },
+    "/api/carts/": {
+      "post": {
+        "tags": ["Carts"],
+        "summary": "Add new item to cart",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "rental_date": { "type": "string", "format": "date" },
+                  "rental_hour": { "type": "string" },
+                  "return_date": { "type": "string", "format": "date" },
+                  "status": {
+                    "type": "string",
+                    "enum": [
+                      "Keranjang",
+                      "Tertunda",
+                      "Disewa",
+                      "Selesai",
+                      "Dibatalkan"
+                    ]
+                  },
+                  "item_id": { "type": "integer" },
+                  "quantity": { "type": "integer" }
+                },
+                "required": [
+                  "rental_date",
+                  "rental_hour",
+                  "return_date",
+                  "status",
+                  "item_id",
+                  "quantity"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "Item successfully added to cart." }
+        }
+      },
+      "get": {
+        "tags": ["Carts"],
+        "summary": "Get all carts by user id",
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": { "description": "Ok." }
+        }
+      }
+    },
+    "/api/carts/by-id/{id}": {
+      "put": {
+        "tags": ["Carts"],
+        "summary": "Update cart by details id",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "rental_date": { "type": "string", "format": "date" },
+                  "rental_hour": { "type": "string" },
+                  "return_date": { "type": "string", "format": "date" },
+                  "quantity": { "type": "integer" }
+                },
+                "required": [
+                  "rental_date",
+                  "rental_hour",
+                  "return_date",
+                  "quantity"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Ok" }
+        }
+      },
+      "delete": {
+        "tags": ["Carts"],
+        "summary": "Delete cart by details id",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer" }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Ok" }
+        }
+      }
+    },
+    "/api/carts/checkout": {
+      "post": {
+        "tags": ["Carts"],
+        "summary": "Checkout items in cart",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "order_detail_ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "integer"
+                    }
+                  }
+                },
+                "required": ["order_detail_ids"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "Item successfully processed." }
+        }
+      }
+    },
+    "/api/checkouts/": {
+      "post": {
+        "tags": ["Checkouts"],
+        "summary": "Checkout new item",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "rental_date": { "type": "string", "format": "date" },
+                  "rental_hour": { "type": "string" },
+                  "return_date": { "type": "string", "format": "date" },
+                  "status": {
+                    "type": "string",
+                    "enum": [
+                      "Tertunda",
+                      "Keranjang",
+                      "Disewa",
+                      "Selesai",
+                      "Dibatalkan"
+                    ]
+                  },
+                  "item_id": { "type": "integer" },
+                  "quantity": { "type": "integer" },
+                  "price": { "type": "integer" }
+                },
+                "required": [
+                  "rental_date",
+                  "rental_hour",
+                  "return_date",
+                  "status",
+                  "item_id",
+                  "quantity",
+                  "price"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "Item successfully processed." }
+        }
+      }
+    },
+    "/api/checkouts/allpending": {
+      "get": {
+        "tags": ["Checkouts"],
+        "summary": "Get all pending checkout (admin only)",
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": { "description": "Ok." }
+        }
+      }
+    },
+    "/api/checkouts/allrented": {
+      "get": {
+        "tags": ["Checkouts"],
+        "summary": "Get all rented (admin only)",
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": { "description": "Ok." }
+        }
+      }
+    },
+    "/api/checkouts/allfinished": {
+      "get": {
+        "tags": ["Checkouts"],
+        "summary": "Get all finished (admin only)",
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": { "description": "Ok." }
+        }
+      }
+    },
+    "/api/checkouts/allcanceled": {
+      "get": {
+        "tags": ["Checkouts"],
+        "summary": "Get all canceled (admin only)",
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": { "description": "Ok." }
+        }
+      }
+    },
+    "/api/checkouts/all/by-user": {
+      "get": {
+        "tags": ["Checkouts"],
+        "summary": "Get all data checkout by user id",
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": { "description": "Ok." }
+        }
+      }
+    },
+    "/api/checkouts/pending/by-user": {
+      "get": {
+        "tags": ["Checkouts"],
+        "summary": "Get all pending by user id",
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": { "description": "Ok." }
+        }
+      }
+    },
+    "/api/checkouts/rented/by-user": {
+      "get": {
+        "tags": ["Checkouts"],
+        "summary": "Get all rented by user id",
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": { "description": "Ok." }
+        }
+      }
+    },
+    "/api/checkouts/finished/by-user": {
+      "get": {
+        "tags": ["Checkouts"],
+        "summary": "Get all finished by user id",
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": { "description": "Ok." }
+        }
+      }
+    },
+    "/api/checkouts/canceled/by-user": {
+      "get": {
+        "tags": ["Checkouts"],
+        "summary": "Get all canceled by user id",
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": { "description": "Ok." }
+        }
+      }
+    },
+    "/api/checkouts/approved/by-orderid/{id}": {
+      "put": {
+        "tags": ["Checkouts"],
+        "summary": "Update order to rented by order id (admin only)",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer" }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Ok" }
+        }
+      }
+    },
+    "/api/checkouts/canceled/by-orderid/{id}": {
+      "put": {
+        "tags": ["Checkouts"],
+        "summary": "Update order to canceled by order id",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer" }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Ok" }
+        }
+      }
+    },
+    "/api/checkouts/finished/by-orderid/{id}": {
+      "put": {
+        "tags": ["Checkouts"],
+        "summary": "Update order to finished by order id (admin only)",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer" }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Ok" }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}
