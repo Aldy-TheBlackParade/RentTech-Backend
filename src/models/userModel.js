@@ -17,6 +17,16 @@ class User {
   static async findById(id) {
     return await prisma.user.findUnique({
       where: { id: parseInt(id) },
+      select: {
+        id: true,
+        name: true,
+        username: true,
+        email: true,
+        phone: true,
+        alamat: true,
+        image_url: true,
+        role: true,
+      },
     });
   }
 
@@ -24,11 +34,13 @@ class User {
     return prisma.user.findMany({
       select: {
         id: true,
+        name: true,
         username: true,
         email: true,
         phone: true,
         alamat: true,
         image_url: true,
+        role: true,
       },
       orderBy: [{ created_at: "asc" }],
     });
